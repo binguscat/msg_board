@@ -1,0 +1,6 @@
+AuthUserFile
+/home/m235472/Desktop/sy306/project/.htpasswd
+AUTHType Digest
+AuthName "Project"
+Require valid-user
+

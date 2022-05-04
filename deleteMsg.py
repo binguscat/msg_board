@@ -58,16 +58,19 @@ def getCookies():
       return {}
 
 def checkAdmin(dbconnection,login):
-   user = login['username']
+   user = login
    mycursor = dbconnection.cursor()
    query = 'SELECT admin FROM user_table WHERE username="%s"'%(user)
    mycursor.execute(query)   
    row = mycursor.fetchone()
+   print(row)
+   if row == None:
+      return row
    return row[0]
    
 def checkUser(dbconnection,login):
    currentMsgD = {}
-   user = login['username']
+   user = login
    mycursor = dbconnection.cursor()
    query = 'SELECT msgID,username FROM msg_table'
    mycursor.execute(query)
@@ -97,10 +100,10 @@ def deleteMsg(dbconnection):
 
 
 # Function Calls
-# cookies = getCookies()
+cookies = getCookies()
 # Turns JSON sting into a dictionary
-# login = json.loads(cookies["login"])
-login = "test_user"
+login = json.loads(cookies["login"])
+
 # Header information
 # Includes style tags
 print ("Content-type: text/html\n")  #REQUIRED
@@ -109,19 +112,27 @@ print ("Content-type: text/html\n")  #REQUIRED
 dbconnection = connectDB()
 adminStatus = checkAdmin(dbconnection,login)
 
-if adminStatus == "false":
+if adminStatus != "true":
    print("NOT ADMIN")
    validIDs = checkUser(dbconnection,login)
+   print(validIDs)
+   
+   if int(form['id'].value) in validIDs:
+      print("MESSAGE ID VALID")
+      print("DELETING MESSAGE")
+      deleteMsg(dbconnection)
+   else:
+      print("MESSAGE ID INVALID")
 else:
    print("ADMIN ACCESS")
    print("DELETING MESSAGE")
    deleteMsg(dbconnection)
-
-print(validIDs)
-if int(form['id'].value) in validIDs:
-   print("MESSAGE ID VALID")
-   print("DELETING MESSAGE")
-   deleteMsg(dbconnection)
-else:
-   print("MESSAGE ID INVALID")
+   
+print("""
+   <!doctype html><title>Form Submitted</title>
+   <head>
+   <meta http-equiv="refresh" content="0;url=./../members.html" /> 
+   </html>
+   <body>
+""")
    

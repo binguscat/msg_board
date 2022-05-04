@@ -8,6 +8,7 @@
 import cgi
 import json
 import mysql.connector
+import hashlib
 
 # Global Variables
 HOST = "localhost"
@@ -17,6 +18,13 @@ DB = "Project"
 
 # Login Form from HTML Page
 form = cgi.FieldStorage()
+
+def addUserToHTP(username, password):
+   passfile = ".htpasswd"
+   command = ["htpasswd", "-i", "-c", passfile, username]
+   execute = subprocess.Popen(command, stdin=subprocess.PIPE,stdout=subprocess.PIPE) 
+   execute.communicate(input=password)
+   return execute.returncode == 0
 
 # Description: creates a connection to the database
 # Parameters: None
@@ -40,13 +48,18 @@ def connectDB():
 # Return Types: 
 # Side Effects: user added to user_table
 def addUser(dbconnection):
+   encodedPass = form['password'].value.encode()
+   hashObj = hashlib.sha256(encodedPass)
+   password = hashObj.hexdigest()
    try:
       mycursor = dbconnection.cursor()
       query = 'INSERT INTO user_table (username,name,password) '
-      query += 'VALUES ("%s","%s","%s")'%(form['username'].value,form['name'].value,form['password'].value)
+      query += 'VALUES ("%s","%s","%s")'%(form['username'].value,form['name'].value,password)
       mycursor.execute(query)
       row = mycursor.fetchone()
       dbconnection.commit()
+      
+      addUserToHTP(form['username'].value,form['password'].value)
       return
    except Exception as e:
       print(f"{e}: Unable to add user to user_table")
@@ -64,7 +77,7 @@ print("USER ADDED")
 print("""
    <!doctype html><title>Form Submitted</title>
    <head>
-   <meta http-equiv="refresh" content="5;url=./../index.html" /> 
+   <meta http-equiv="refresh" content="0;url=./../index.html" /> 
    </html>
    <body>
 """)

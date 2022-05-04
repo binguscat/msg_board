@@ -9,7 +9,7 @@
   <script src="project.js"></script>
 </head>
 <!-- load in the table into the page -->
-<body style="background-color:black;color:white" onload='startTable();'>
+<body style="background-color:black;color:white" onload='startTableFromServer()'>
 
 
 <div class="container mt-3 text-center">
@@ -18,7 +18,7 @@
 <div class="container mt-3">
   <div class = "row">
     <div class = col>
-      <table class="table table-hover" id="employeeTable" style="width:100%;color:white">
+      <table class="table table-hover" id="messageTable" style="width:100%;color:white">
         <tr>
           <th class = "p1">ID</th>
           <th class = "p1">User</th>
@@ -32,7 +32,7 @@
     <br><br>
     <form method="post" action="./cgi-bin/message.py">
       <label for="message"><h2>Enter Message:</h2></label>
-      <textarea class="form-control" id="message" rows="3" maxlength='200'></textarea>
+      <textarea class="form-control" name="message" id="message" rows="3" maxlength='200'></textarea>
       <br>
       <input type="submit" value="SUBMIT MESSAGE" class="btn btn-outline-success">
     </form>

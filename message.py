@@ -58,16 +58,19 @@ def getCookies():
       return {}
       
 def addMsg(dbconnection,login):
-   try:
-      mycursor = dbconnection.cursor()
-      query = 'INSERT INTO msg_table (user,msg) '
-      query += 'VALUES ("%s","%s")'%(login['username'],form['message'].value)
-      mycursor.execute(query)
-      row = mycursor.fetchone()
-      dbconnection.commit()
-      return
-   except Exception as e:
-      print(f"{e}: Unable to add message to message table")
+   print("In add message")
+   print(login)
+   
+   mycursor = dbconnection.cursor()
+   query = 'INSERT INTO msg_table (username,msg) '
+   query += 'VALUES ("%s","%s")'%(login,form['message'].value)
+   print(query)
+   mycursor.execute(query)
+   row = mycursor.fetchone()
+   dbconnection.commit()
+   return
+   # except Exception as e:
+   #    print(f"{e}: Unable to add message to message table")
    
 # Function Calls
 cookies = getCookies()
@@ -80,4 +83,12 @@ print ("Content-type: text/html\n")  #REQUIRED
 
 # Function Calls
 dbconnection = connectDB()
-addMsg(dbconnection,login)        
+addMsg(dbconnection,login)   
+
+print("""
+   <!doctype html><title>Form Submitted</title>
+   <head>
+   <meta http-equiv="refresh" content="2;url=./../members.html" /> 
+   </html>
+   <body>
+""")     

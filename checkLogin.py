@@ -8,6 +8,7 @@
 import cgi
 import json
 import mysql.connector
+import hashlib
 
 # Global Variables
 HOST = "localhost"
@@ -70,8 +71,11 @@ def checkPassword(dbconnection):
    mycursor.execute(query)
    row = mycursor.fetchone()
    pWord = row[0]
+   encodedPass = form['password'].value.encode()
+   hashObj = hashlib.sha256(encodedPass)
+   password = hashObj.hexdigest()
    
-   if form['password'].value == pWord:
+   if password == pWord:
       # print("PASSWORDS MATCH")
       return 1
    else:
@@ -101,7 +105,7 @@ else:
    print("""
       <!doctype html><title>Form Submitted</title>
       <head>
-      <meta http-equiv="refresh" content="5;url=./../index.html" /> 
+      <meta http-equiv="refresh" content="0;url=./../index.html" /> 
       </html>
       <body>
    """)

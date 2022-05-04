@@ -50,10 +50,10 @@ def readMsg(dbconnection):
    while row is not None:
       oneMsgD = {"id":row[0],"message":row[1],"username":row[2],"time":row[3]}
       
-      myProducts[row[0]] = oneProdD
+      msgs[row[0]] = oneMsgD
       
       row = mycursor.fetchone()
-   print(json.dumps(msgs))
+   print(json.dumps(msgs,default=str))
       
 # Header information
 # Includes style tags
