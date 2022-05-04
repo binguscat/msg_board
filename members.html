@@ -18,7 +18,7 @@
 <div class="container mt-3">
   <div class = "row">
     <div class = col>
-      <table class="table table-hover" id="messageTable" style="width:100%;color:white">
+      <table class="table table-hover" id="employeeTable" style="width:100%;color:white">
         <tr>
           <th class = "p1">ID</th>
           <th class = "p1">User</th>
@@ -37,7 +37,7 @@
       <input type="submit" value="SUBMIT MESSAGE" class="btn btn-outline-success">
     </form>
     <br>
-      <form method="post" action="./cgi-bin/delete.py">
+      <form method="post" action="./cgi-bin/deleteMsg.py">
         <label for="message"><h2>Delete Message:</h2></label>
         <br>
         <input type="text" name="id" placeholder="Enter Msg ID">
