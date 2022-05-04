@@ -46,24 +46,24 @@ function startTable(){
       console.log(msg);
       var time = messages[i]["time"];
       console.log(time);
-      
+
       var row = document.createElement("tr");
-      
+
       var idCol = document.createElement("td");
       var nameCol = document.createElement("td");
       var msgCol = document.createElement("td");
       var timeCol = document.createElement("td");
-      
+
       idCol.innerHTML = id;
       nameCol.innerHTML = name;
       msgCol.innerHTML = msg;
       timeCol.innerHTML = time;
-      
+
       row.appendChild(idCol);
       row.appendChild(nameCol);
       row.appendChild(msgCol);
       row.appendChild(timeCol);
-      
+
       table.appendChild(row);
 
       // //each cell
@@ -71,7 +71,7 @@ function startTable(){
       // var cell2 = row.insertCell(1);
       // var cell3 = row.insertCell(2);
       // var cell4 = row.insertCell(3);
-      // 
+      //
       // //create the elements
       // var idNum = document.createElement('idNum');
       // var user = document.createElement('user');
@@ -114,7 +114,7 @@ function setCookie(cname, cvalue, exdays) {
  d.setTime(d.getTime() + (exdays*24*60*60*1000));
  var expires = "expires="+ d.toUTCString();
  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
- // alert(document.cookie);
+ alert(document.cookie);
  console.log("SET COOKIE");
 }
 
@@ -128,7 +128,16 @@ function setUser(){
    var exdays = 30;
 
    setCookie(cname, cvalue, exdays);
+}
 
+function setCAP(){
+   var cname = "CAP";
+   var user = document.getElementById("userNum");
+   var user1 = user.value;
+   var cvalue = JSON.stringify(user1);
+   var exdays = 30;
+
+   setCookie(cname, cvalue, exdays);
 }
 
 function logout(){
